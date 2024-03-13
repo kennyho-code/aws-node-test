@@ -1,0 +1,22 @@
+name: EC2 Build
+
+on: push
+
+jobs:
+  deploy:
+    name: push to ec2
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to EC2 instance
+        uses: easingthemes/ssh-deploy@main
+
+        env:
+          SSH_PRIVATE_KEY: ${{secrets.EC2_PRIVATE_KEY}}
+          SOURCE: "./"
+          REMOTE_HOST: "ec2-54-226-9-214.compute-1.amazonaws.com"
+          REMOTE_USER: "ec2-user"
+          TARGET: "/home/ec2-user/aws-node-test"
